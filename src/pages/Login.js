@@ -85,7 +85,7 @@ class Login extends React.Component {
   handleSubmit(event) {
 
     event.preventDefault();
-    
+
     for(var e in this.state.v.errors) {
       if (this.state.v.errors[e] != null) {
         return;
@@ -256,11 +256,12 @@ const LoginPage = styled.div`
   input[type="submit"] {
     background-color: ${ colors.blueDark };
     border: none;
+    border-radius: 2px;
     color: ${ colors.offWhite };
     cursor: pointer;
     font-size: 1rem;
     margin-top: 40px;
-    padding: 12px 5px;
+    padding: 20px 5px;
     transition: 0.2s all ease-in-out;
   }
 
@@ -319,7 +320,7 @@ const LoginPage = styled.div`
     font-size: 0.75rem;
     line-height: 1rem;
     padding: 2px 5px;
-    margin-top: 5px;
+    margin-top: 10px;
 
     p {
       margin: 0;
