@@ -16,9 +16,8 @@ const routing = (
     <GlobalStyle></GlobalStyle>
     <Router>
       <div>
-        <Route exact path="/" component={App} />
         <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/private" component={App} />
+        <PrivateRoute exact path="/dashboard" component={App} />
       </div>
     </Router>
   </>

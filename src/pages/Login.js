@@ -117,7 +117,7 @@ class Login extends React.Component {
                 errorMsg: null
               })
               localStorage.setItem('formentrytoken', responseData.token);
-              this.props.history.push('/private');
+              this.props.history.push('/dashboard');
             }
           },
           (error) => {
@@ -208,6 +208,7 @@ const LoginPage = styled.div`
 
   h1 {
     color: ${ colors.blueDark };
+    margin: 0;
     margin-bottom: 40px;
   }
 
