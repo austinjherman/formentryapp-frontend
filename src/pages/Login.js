@@ -2,7 +2,6 @@ import React from 'react';
 import validator from 'validator';
 import colors from '../styles/colors';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
 
 const FlashMessage = ({msg}) => {
   if (msg) {
@@ -84,8 +83,9 @@ class Login extends React.Component {
   }
 
   handleSubmit(event) {
-    // alert('A login was attempted: ' + this.state.email);
+
     event.preventDefault();
+    
     for(var e in this.state.v.errors) {
       if (this.state.v.errors[e] != null) {
         return;
