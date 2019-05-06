@@ -168,7 +168,7 @@ class Login extends React.Component {
                 </g>
               </svg>
             </div>
-            <form className="login__form" onSubmit={this.handleSubmit} autocomplete="off">
+            <form className="login__form" onSubmit={this.handleSubmit}>
               <header>
                 <h1>Login</h1>
               </header>
@@ -186,7 +186,7 @@ class Login extends React.Component {
                 <input type="submit" value="Login" />
               </div>
             </form>
-            <FlashMessage msg={this.state.errorMsg}></FlashMessage>
+            {this.state.errorMsg && <FlashMessage msg={this.state.errorMsg}></FlashMessage>}
           </div>
         </div>
       </LoginPage>
