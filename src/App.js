@@ -18,8 +18,8 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-          <Link to="/login">Login</Link>
         </a>
+        <Link to="/login">Login</Link>
       </header>
     </div>
   );
