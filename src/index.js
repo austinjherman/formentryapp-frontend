@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Login from './pages/Login';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
 import 'normalize.css';
 import GlobalStyle from './styles/global';
 import typography from './styles/typography';
+import { Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import PrivateRoute from './components/PrivateRoute';
 import * as serviceWorker from './serviceWorker';
 
 typography.injectStyles();
@@ -16,8 +17,20 @@ const routing = (
     <GlobalStyle></GlobalStyle>
     <Router>
       <div>
+        <Route
+          render={ props =>
+            props.location.pathname === '/' ? (
+              <Redirect
+                to={{
+                  pathname: "/dashboard",
+                  state: { from: props.location }
+                }}
+              />
+            ) : null
+          }
+        />
         <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/dashboard" component={App} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
       </div>
     </Router>
   </>
