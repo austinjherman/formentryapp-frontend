@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import GlobalStyle from './styles/global';
 import typography from './styles/typography';
 import { Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
-import App from './App';
+//import App from './App';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import withAuth from './components/PrivateRoute';

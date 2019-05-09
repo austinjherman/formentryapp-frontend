@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../components/Header';
 
 class Dashboard extends React.Component {
 
@@ -38,12 +39,14 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
-      <h1>Dashboard</h1>
-      { 
-        this.state.responseData
-          ? <FormEntries formEntries={this.state.responseData.data} />
-          : null
-      }
+        <Header pageName="Dashboard" />
+        <div className="container">
+          { 
+            this.state.responseData
+              ? <FormEntries formEntries={this.state.responseData.data} />
+              : null
+          }
+        </div>
       </>
     )
   }
