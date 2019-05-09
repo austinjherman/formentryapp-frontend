@@ -7,7 +7,7 @@ import { Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import PrivateRoute from './components/PrivateRoute';
+import withAuth from './components/PrivateRoute';
 import * as serviceWorker from './serviceWorker';
 
 typography.injectStyles();
@@ -30,7 +30,7 @@ const routing = (
           }
         />
         <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/dashboard" component={withAuth(Dashboard)} />
       </div>
     </Router>
   </>
