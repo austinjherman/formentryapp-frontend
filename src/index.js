@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import GlobalStyle from './styles/global';
 import typography from './styles/typography';
 import { Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
@@ -15,7 +16,7 @@ typography.injectStyles();
 
 const routing = (
   <>
-    <GlobalStyle></GlobalStyle>
+    <GlobalStyle />
     <Router>
       <div>
         <Route

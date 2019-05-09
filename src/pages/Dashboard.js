@@ -1,5 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 class Dashboard extends React.Component {
 
@@ -23,7 +25,6 @@ class Dashboard extends React.Component {
         response.json().then(
           (responseData) => {
             this.setState({responseData: responseData});
-            console.log('responseData: ', responseData.data);
           },
           (error) => {
             console.log('error: ', error);
@@ -54,11 +55,29 @@ class Dashboard extends React.Component {
 }
 
 const FormEntries = (formEntries) => {
-  const listItems = formEntries.formEntries.map(fe => <li key={fe.id}>{fe.email}</li>);
+  const listItems = formEntries.formEntries.map(fe => {
+    let date = new Date(fe.created_at);
+    return (
+      <tr key={fe.id}>
+          <td>{fe.first_name} {fe.last_name}</td>
+          <td>{fe.email}</td>
+          <td>{fe.phone}</td>
+          <td><Moment format="MM/DD/YYYY hh:mm:ssa" subtract={{ hours: 4 }}>{date}</Moment></td>
+      </tr>
+    )
+  });
   return (
-    <ul>
-      { listItems }
-    </ul>
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Submitted</th>
+      </thead>
+      <tbody>
+        { listItems }
+      </tbody>
+    </table>
   )
 }
 
