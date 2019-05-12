@@ -8,9 +8,7 @@ class Dashboard extends React.Component {
     return (
       <>
         <Header pageName="Dashboard" />
-        <div className="container">
-          <FormEntries />
-        </div>
+        <FormEntries />
       </>
     )
   }
