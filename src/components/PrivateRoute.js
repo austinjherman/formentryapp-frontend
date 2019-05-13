@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 
-export default function withAuth(ComponentToProtect) {
+//export default function withAuth(ComponentToProtect) {
 
-  return class extends Component {
+  export default class extends Component {
     
     constructor() {
       super();
@@ -48,14 +48,15 @@ export default function withAuth(ComponentToProtect) {
       if (redirect) {
         return <Redirect to="/login" />;
       }
-      return (
-        <ComponentToProtect { ...this.props } />
-      );
+      return null;
+      // return (
+      //   <ComponentToProtect { ...this.props } />
+      // );
     }
 
   }
 
-}
+//}
 
 //   const [authed, setAuthed] = useState(false);
 

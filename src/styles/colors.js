@@ -7,6 +7,7 @@ export default {
   offWhite: "#F7F7FF",
   red: "#FE5F55",
   green: "#42c552",
-  grayLightest: "#efefef"
+  grayLightest: "#efefef",
+  grayDarkest: "#222",
 
 }

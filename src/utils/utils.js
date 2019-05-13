@@ -7,13 +7,22 @@ export class debounce {
   }
 
   debounce(context, func, ms=0) {
-    if(this.state.debounces[func]) {
-      clearTimeout(this.state.debounces[func]);
+
+    let args = [],
+        funcName = func;
+
+    if(typeof func === 'object') {
+      args = func.args || [];
+      funcName = func.name;
+    }
+
+    if(this.state.debounces[funcName]) {
+      clearTimeout(this.state.debounces[funcName]);
     }
     var timeout = setTimeout(() => {
-      context[func]();
+      context[funcName](...args);
     }, ms);
-    this.state.debounces[func] = timeout;
+    this.state.debounces[funcName] = timeout;
   }
 
 }

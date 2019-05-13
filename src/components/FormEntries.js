@@ -17,20 +17,17 @@ export default class extends React.Component {
       filterStringForServer: null
     };
     this.debouncer = new debounce();
-    this.handlePerPageChange = this.handlePerPageChange.bind(this);
-    this.handlePageNumberChange = this.handlePageNumberChange.bind(this);
-    this.handleFilterArrayChange = this.handleFilterArrayChange.bind(this);
   }
 
-  handlePageNumberChange(event) {
+  handlePageNumberChange = (event) => {
     this.setState({page: event.target.value}, () => {
       if(this.state.page.length && Number(this.state.page > 0)) {
-        this.debouncer.debounce(this, 'fetchFormEntries', 200);
+        this.debouncer.debounce(this, {name:'fetchFormEntries'}, 200);
       }
     });
   }
 
-  handlePerPageChange(event) {
+  handlePerPageChange = (event) => {
     this.setState({perPage: event.target.value}, () => {
       if(this.state.perPage.length && Number(this.state.perPage > 0)) {
         this.debouncer.debounce(this, 'fetchFormEntries', 200);
@@ -38,7 +35,7 @@ export default class extends React.Component {
     });
   }
 
-  handleFilterArrayChange(e) {
+  handleFilterArrayChange = (e) => {
     let fg = e.target.dataset.filtergroup,
         fafs = this.state.filterArrayForServer,
         fgExists = fafs.hasOwnProperty(fg);
@@ -151,15 +148,20 @@ export default class extends React.Component {
       );
   }
 
+  renderListNumber = (i) => {
+    return null;
+  }
+
 
   render() {
 
     if (this.state.formEntries) {
 
-      let listItems = this.state.formEntries.data.map(fe => {
+      let listItems = this.state.formEntries.data.map((fe, i) => {
         let date = new Date(fe.created_at);
         return (
           <tr key={fe.id}>
+            <td>{ (i + 1) + ((this.state.page * this.state.perPage) - this.state.perPage) }</td>
             <td>{fe.first_name} {fe.last_name}</td>
             <td>{fe.email}</td>
             <td>{fe.phone}</td>
@@ -171,93 +173,92 @@ export default class extends React.Component {
       });
 
       return (
-        <>
-          <StyledFormEntryTable>
-            <div className="form-entries-table">
-              <div className="container form-entries-table">
-                <div className="row">
-                  <aside className="col-md-2 filters">
-                    <h1>Filters</h1>
-                    {
-                      this.state.filtersFromServer && this.state.filtersFromServer.success
-                        ? this.state.filtersFromServer.data.map(f => {
-                            let cbs = f.values.map(v => {
-                              return (
-                                <div key={v}>
-                                  <label>
-                                    <input type="checkbox" data-filtergroup={f.name} value={v} onChange={this.handleFilterArrayChange} />
-                                    <span>{v}</span>
-                                  </label>
-                                </div>
-                              );
-                            });
+        <StyledFormEntryTable>
+          <div className="form-entries-table">
+            <div className="container form-entries-table">
+              <div className="row">
+                <aside className="col-md-2 filters">
+                  <h1>Filters</h1>
+                  {
+                    this.state.filtersFromServer && this.state.filtersFromServer.success
+                      ? this.state.filtersFromServer.data.map(f => {
+                          let cbs = f.values.map(v => {
                             return (
-                              <div className="filter-section" key={f.name}>
-                                <h2>{f.name}</h2>
-                                <div>{cbs}</div>
+                              <div className="filter-checkbox" key={v}>
+                                <label>
+                                  <input type="checkbox" data-filtergroup={f.name} value={v} onChange={this.handleFilterArrayChange} />
+                                  <span>{v}</span>
+                                </label>
                               </div>
-                            )
-                          })
-                        : null
-                    } 
-                  </aside>
-                  <div className="col-md-10 entries">
-                    <div className="d-flex toprow">
-                      <div className="control-container">
-                        <div className="control__item">Total Entries: { this.state.formEntries.total_entries }</div>
-                        <div className="d-inline-flex control__item">
-                          <div className="flex-item">Page</div>
-                          <div className="flex-item"> <input type="tel" value={ this.state.page } onChange={ this.handlePageNumberChange } /></div>
-                          <div className="flex-item">of { Math.ceil(this.state.formEntries.total_entries / this.state.perPage) }</div>
-                        </div>
-                        <div className="d-inline-flex control__item">
-                          <div className="flex-item">Show</div>
-                          <div className="flex-item"><input type="tel" value={this.state.perPage} onChange={ this.handlePerPageChange } /></div>
-                          <div className="flex-item">Results</div>
-                        </div>
+                            );
+                          });
+                          return (
+                            <div className="filter-section" key={f.name}>
+                              <h2>{f.name}</h2>
+                              <div>{cbs}</div>
+                            </div>
+                          )
+                        })
+                      : null
+                  } 
+                </aside>
+                <div className="col-md-10 entries">
+                  <div className="d-flex toprow">
+                    <div className="control-container">
+                      <div className="control__item">Total Entries: { this.state.formEntries.total_entries }</div>
+                      <div className="d-inline-flex control__item">
+                        <div className="flex-item">Page</div>
+                        <div className="flex-item"> <input type="number" value={ this.state.page } onChange={ this.handlePageNumberChange } /></div>
+                        <div className="flex-item">of { Math.ceil(this.state.formEntries.total_entries / this.state.perPage) }</div>
                       </div>
-                      <div className="page-arrows">
-                        <button onClick={() => {
-                          let event = {};
-                          event.target = {};
-                          event.target.value = (Number(this.state.page) - 1).toString();
-                          this.handlePageNumberChange(event)
-                        }}>
-                          <div className="sr-only">Previous Page</div>
-                          <i className="fas fa-arrow-left"></i>
-                        </button>
-                        <button onClick={() => {
-                          let event = {};
-                          event.target = {};
-                          event.target.value = (Number(this.state.page) + 1).toString();
-                          this.handlePageNumberChange(event)
-                        }}>
-                          <div className="sr-only">Next Page</div>
-                          <i className="fas fa-arrow-right"></i>
-                        </button>
+                      <div className="d-inline-flex control__item">
+                        <div className="flex-item">Show</div>
+                        <div className="flex-item"><input type="number" value={this.state.perPage} onChange={ this.handlePerPageChange } /></div>
+                        <div className="flex-item">Results</div>
                       </div>
                     </div>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Phone</th>
-                          <th>Submitted (EST)</th>
-                          <th>Program</th>
-                          <th>Vendor</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        { listItems }
-                      </tbody>
-                    </table>
+                    <div className="page-arrows">
+                      <button onClick={() => {
+                        let event = {};
+                        event.target = {};
+                        event.target.value = (Number(this.state.page) - 1).toString();
+                        this.handlePageNumberChange(event)
+                      }}>
+                        <div className="sr-only">Previous Page</div>
+                        <i className="fas fa-arrow-left"></i>
+                      </button>
+                      <button onClick={() => {
+                        let event = {};
+                        event.target = {};
+                        event.target.value = (Number(this.state.page) + 1).toString();
+                        this.handlePageNumberChange(event)
+                      }}>
+                        <div className="sr-only">Next Page</div>
+                        <i className="fas fa-arrow-right"></i>
+                      </button>
+                    </div>
                   </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Submitted (EST)</th>
+                        <th>Program</th>
+                        <th>Vendor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      { listItems }
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-          </StyledFormEntryTable>
-        </>
+          </div>
+        </StyledFormEntryTable>
       )
 
     }
@@ -357,6 +358,11 @@ const StyledFormEntryTable = styled.div`
     }
     .filter-section {
       margin: 15px 0;
+    }
+    .filter-checkbox {
+      input {
+        margin-right: 5px;
+      }
     }
   }
 
