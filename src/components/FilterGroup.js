@@ -14,6 +14,15 @@ export default class extends React.Component {
     this.debouncer = new debounce();
   }
 
+  addFilter = () => {
+    let filters = this.state.filters;
+    filters.push({
+      id: Math.random(),
+      value: "",
+    })
+    this.setState({filters: filters});
+  }
+
   render() {
     const fg = this.props.filterGroup;
     return(
@@ -26,7 +35,9 @@ export default class extends React.Component {
               <span>{fg.group_key}</span>
             </div>
             <div className="filter-group__add">
-              <button>Add Filter</button>
+              <button
+                onClick={ this.addFilter }
+                >Add Filter</button>
             </div>
           </div>
           <div className="filter-group__table-container">
@@ -73,7 +84,7 @@ const StyledFilterGroup = styled.div`
   .filter-group__table-container {
     margin: 0 15px;
   }
-  
+
 }
 
 `;
