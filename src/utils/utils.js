@@ -19,10 +19,13 @@ export class debounce {
     if(this.state.debounces[funcName]) {
       clearTimeout(this.state.debounces[funcName]);
     }
+
     var timeout = setTimeout(() => {
       context[funcName](...args);
     }, ms);
+
     this.state.debounces[funcName] = timeout;
+    
   }
 
 }

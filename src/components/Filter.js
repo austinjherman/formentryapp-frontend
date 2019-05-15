@@ -30,7 +30,10 @@ export default class extends React.Component {
   }
 
   updateValue = (e) => {
-    this.setState({value: e.target.value});
+    this.setState({
+      dirty: true,
+      value: e.target.value
+    });
   }
 
   render() {

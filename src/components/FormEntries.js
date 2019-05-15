@@ -22,7 +22,9 @@ export default class extends React.Component {
   handlePageNumberChange = (event) => {
     this.setState({page: event.target.value}, () => {
       if(this.state.page.length && Number(this.state.page > 0)) {
-        this.debouncer.debounce(this, {name:'fetchFormEntries'}, 200);
+        this.debouncer.debounce(this, {
+          name:'fetchFormEntries'
+        }, 200);
       }
     });
   }
